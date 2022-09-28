@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container{
+        display: flex;
+        width: 1310px;
+        justify-content: space-between;
+    }
+    .container-left{ 
+        width: 600px;
+        height: 400px;
+        background: #000;
+    }
+    .banner img{ 
+        width: 600px;
+    }
+    .container-right{ 
+        width: 700px;
+        height: 400px;
+        border: 1px solid skyblue;
+    }
+    .header{
+        color: blue;
+        display: flex;
+        justify-content: space-around;
+    }
+    .header-left{ 
+        background: skyblue;
+
+    }
+    .header-right{ 
+        background: skyblue;
+    }
+    .day{ 
+        display: flex;
+        justify-content: space-evenly;
+        background: skyblue;
+        color: white;
+    }
+    .item-date{
+        display: flex;
+        justify-content: space-evenly;
+        margin: 5px 0;
+    }
+    .item-date>div {
+        position: relative;
+    }
+    .item-modal{ 
+        border: 1px solid;
+        position: absolute;
+        top: 35px;
+        left: -25px;
+    }
+    .round{ 
+        border: 1px solid;
+        border-radius: 50%;
+        width: 5px;
+        height: 5px;
+    }
+    
+</style>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="container-left">
+                <!-- 轮播图 -->
+                <div class="banner">
+                    <img :src="item" alt="" v-for="(item,index) in imgUrl" :key="index" v-show="index === currentBanner">
+                </div>
+            </div>
+            <div class="container-right">
+                <div class="header">
+                    <!-- 左箭头 -->
+                    <span class="header-left" @click="handleLeft"><</span>
+                    2022年{{currentMounth}}月
+                    <!-- 右箭头 -->
+                    <span class="header-right" @click="handleRight">></span>
+                </div>
+                <!-- 星期日——六 -->
+                <div class="day">
+                    <span v-for="(item,index) in day" :key="item">{{item}}</span>
+                </div>
+                <!-- 日期每一天 -->
+                <div class="contnent">
+                    <!-- 每一天的内容 -->
+                    <div v-for="(item,index) in dates" :key="index" >
+                        <!-- 当前月的日期 -->
+                        <div v-show="item.mounth === currentMounth" class="item-date">
+                            <!-- 循环显示每行日期(星期对应的日期) -->
+                            <div v-for="(i,j) in item.date" :key="j">
+                                <!-- 每一天 -->
+                                <div class="item-everyday">{{i.itemDate}}</div>
+                                <!-- 小圆点 -->
+                                <div class="round" @mouseover="handleInto(j)"></div>
+                                <!-- 小圆点对应的弹框 -->
+                                <div v-if="i.child.length" class="item-modal" v-show="j === currentShow">
+                                    <div v-for="(it,idx) in i.child">
+                                        {{it}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{ 
+                imgUrl:[
+                    "https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2820f086e89547d5879084ab16abe682~tplv-k3u1fbpfcp-no-mark:460:460:460:270.awebp",
+                    "https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/default.2a5b86b.png"
+                ],
+                currentShow: -1,
+                currentBanner: 0, //当前轮播图
+                currentMounth: '9',
+                day:['日','一','二','三','四','五','六'],
+                dates:[
+                {
+                    mounth:'8',
+                    date:[
+                        {
+                            itemDate:'1',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'2',
+                            child:[]
+                        },
+                        {
+                            itemDate:'3',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'4',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'5',
+                            child:[]
+                        },
+                        {
+                            itemDate:'6',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'7',
+                            child:['asdasd','asdasd','asdasd']
+                        }
+                    ]
+                },
+                {
+                    mounth:'9',
+                    date:[
+                        {
+                            itemDate:'1',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'2',
+                            child:[]
+                        },
+                        {
+                            itemDate:'3',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'4',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'5',
+                            child:[]
+                        },
+                        {
+                            itemDate:'6',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'7',
+                            child:['asdasd','asdasd','asdasd']
+                        }
+                    ]
+                },
+                {
+                    mounth:'10',
+                    date:[
+                        {
+                            itemDate:'1',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'2',
+                            child:[]
+                        },
+                        {
+                            itemDate:'3',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'4',
+                            child:['aside','asdasd']
+                        },
+                        {
+                            itemDate:'5',
+                            child:[]
+                        },
+                        {
+                            itemDate:'6',
+                            child:['asdasd','asdasd','asdasd']
+                        },
+                        {
+                            itemDate:'7',
+                            child:['asdasd','asdasd','asdasd']
+                        }
+                    ]
+                }]
+            }
+        },
+        mounted() {
+            setInterval(() => {
+                this.currentBanner++  
+                if(this.currentBanner > this.imgUrl.length-1){
+                    this.currentBanner = 0
+                } 
+            }, 3000);
+        },
+        methods: {
+            handleInto(index){
+                this.currentShow = index
+            },
+            handleLeft(){
+                if(this.currentMounth === '1') return
+                this.currentMounth = `${+this.currentMounth -1}`
+            },
+            handleRight(){
+                if(this.currentMounth === '12') return
+                this.currentMounth = `${+this.currentMounth +1}`
+            }
+        },
+    })
+    
+</script>
+</html>
