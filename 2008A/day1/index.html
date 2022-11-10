@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .list img{
+        width: 50px;
+    }
+</style>
+<body>
+    <h1>校园超市</h1>
+    <input type="text" class="search"> <button class="search-button">搜索</button>
+    <div class="list">
+
+    </div>
+</body>
+
+<script>
+    let dataList = [
+        {
+            img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+            title:'君乐宝',
+            desc:"累计1.5w份",
+            price:"99"
+        },
+        {
+            img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+            title:'君乐宝1',
+            desc:"累计1.5w份",
+            price:"95"
+        },
+        {
+            img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+            title:'君乐宝2',
+            desc:"累计1.5w份",
+            price:"94"
+        },
+        {
+            img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+            title:'君乐宝3',
+            desc:"累计1.5w份",
+            price:"96"
+        }
+    ]
+    
+    // 获取列表渲染的容器
+    let list = document.querySelector('.list')
+    // 获取输入框
+    let search = document.querySelector('.search')
+    // 获取搜索按钮
+    let searchBtn = document.querySelector('.search-button')
+
+    dataList.map(item=>{
+        list.innerHTML += `
+            <img src="${item.img}" alt="">
+            <div class="title">${item.title}</div>
+            <div class="desc">${item.desc}</div>
+            <div class="price">${item.price}¥</div>
+        `
+    }).join('')
+
+    // 监听输入框 输入的时候模糊搜索
+    // search.addEventListener('input',(e)=>{
+    //     // console.log(e.target.value)
+    //     //筛选出 标题包含输入内容的商品 返回一个新的搜索列表
+    //     let searchList = dataList.filter(item=> item.title.includes(e.target.value))
+    //     // 清空默认的内容
+    //     list.innerHTML = ''
+    //     // 替换成模糊搜索符合条件的内容
+    //     searchList.map(item=>{
+    //     list.innerHTML += `
+    //         <img src="${item.img}" alt="">
+    //         <div class="title">${item.title}</div>
+    //         <div class="desc">${item.desc}</div>
+    //         <div class="price">${item.price}¥</div>
+    //     `
+    // }).join('')
+    // })
+
+
+    // 点击按钮时模糊搜索
+    searchBtn.addEventListener('click',()=>{
+        // console.log(search.value)
+        let searchList = dataList.filter(item=> item.title.includes(search.value))
+        // 清空默认的内容
+        list.innerHTML = ''
+        // 替换成模糊搜索符合条件的内容
+        searchList.map(item=>{
+            list.innerHTML += `
+                <img src="${item.img}" alt="">
+                <div class="title">${item.title}</div>
+                <div class="desc">${item.desc}</div>
+                <div class="price">${item.price}¥</div>
+            `
+        }).join('')
+    })
+
+    search.addEventListener('input',(e)=>{
+       if(e.target.value == ''){
+        list.innerHTML = ''
+        dataList.map(item=>{
+            list.innerHTML += `
+                <img src="${item.img}" alt="">
+                <div class="title">${item.title}</div>
+                <div class="desc">${item.desc}</div>
+                <div class="price">${item.price}¥</div>
+            `
+        }).join('')
+       }
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .list img{
+        width: 50px;
+    }
+</style>
+<body>
+    <div id="app">
+        <h1>校园超市</h1>
+        <!-- v-on: vue提供的绑定事件的方法 可以缩写成@ -->
+        <!-- v-model  vue里的双向绑定方法 可以实现输入框和变量之间的双向绑定 -->
+        <input type="text" v-model="inputValue" @input="handleInput"> <button @click="handleClick">搜索</button>
+        <div v-for="(item,index) in searchList" class="list">
+            <!-- v-bind: 是vue提供的动态属性 可以缩写成: -->
+            <img :src="item.img" alt="">
+            <!-- {{}}  vue提供的渲染语法 类似于es6模板字符串的${} -->
+            <div class="title">{{item.title}}</div>
+            <div class="desc">{{item.desc}}</div>
+            <div class="price">{{item.price}}¥</div>
+        </div>
+    </div>
+</body>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        // 渲染的入口 制定一个dom元素
+        el:"#app",
+        // vue提供的data函数 用于存放状态 源数据
+        data(){
+            return {
+                // 所有的数据
+                dataList:[
+                    {
+                        img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+                        title:'哇哈哈',
+                        desc:"累计1.5w份",
+                        price:"99"
+                    },
+                    {
+                        img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+                        title:'君乐宝',
+                        desc:"累计1.5w份",
+                        price:"99"
+                    },
+                    {
+                        img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+                        title:'君乐宝1',
+                        desc:"累计1.5w份",
+                        price:"95"
+                    },
+                    {
+                        img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+                        title:'君乐宝2',
+                        desc:"累计1.5w份",
+                        price:"94"
+                    },
+                    {
+                        img:'https://img2.baidu.com/it/u=1644941556,604602934&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1668186000&t=cc613d41d96f79a48bb1329a287e20ec',
+                        title:'君乐宝3',
+                        desc:"累计1.5w份",
+                        price:"96"
+                    }
+                ],
+                inputValue: '',
+                // 展示的数据
+                searchList:[]
+            }
+        },
+        // 实例创建后执行的函数
+        created(){
+            console.log('created')
+            // 页面创建后对 searchList进行一个默认赋值
+            this.searchList = this.dataList
+        },
+        // vue提供的混入方法 可以存放自定义函数
+        methods: {
+            filterList(){
+                // 搜索的输入框没有输入内容时 默认显示全部数据
+                if(this.inputValue == ''){
+                    return this.searchList = this.dataList
+                }
+                // 只展示 title包含输入内容的数据
+                this.searchList = this.dataList.filter(item => item.title.includes(this.inputValue))
+            },
+            // 每次输入时触发的自定义函数
+            handleInput(){
+                if(this.inputValue == ''){
+                    return this.searchList = this.dataList
+                }
+            },
+            // 点击搜索按钮时触发的函数
+            handleClick(){
+               this.filterList()
+            }
+        },
+    })
+
+</script>
+</html>
