@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>v-model</h1>
+    <input type="text" id="user">
+    姓名： <p id="username"></p>
+</body>
+<script>
+    let userInfo = {}
+    // vue3 响应式原理proxy
+    // vue2 响应式原理 Object.defineProperty es5对象的方法
+    // 三个参数： 属性所在的对象、属性的名字、一个描述对象
+    Object.defineProperty(userInfo,'username',{
+        get(){},
+        // 设置值 这里会接收到一个参数 可以拿到输入的值
+        set(value){
+            document.getElementById('username').innerHTML = value
+        }
+    })
+    // // 获取到输入框的dom元素 并加上一个监听事件
+    // document.getElementById('user').addEventListener('input',(event)=>{
+    //     userInfo['username'] = event.target.value
+    // })
+
+    document.getElementById('user').oninput = ()=>{
+        userInfo['username'] = event.target.value
+    }
+</script>
+</html>
