@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="form.iptValue">
+        {{i}}
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return {
+                form:{
+                    iptValue:'',
+                },
+                list:['abc','ab','abcd'],
+                i:'',
+            }
+        },
+        // watch 和 computed 区别  
+        // computed有缓存 watch没有缓存
+        // computed 依赖于单个或多个数据
+        // watch 只是监听值改变的时候执行一些操作
+        // computed 是可以计算结果的
+        computed:{
+            myForm(){
+                return {...this.form}
+            }
+        },
+        watch:{
+            // 监听基础数据类型
+            // iptValue(newValue,old){
+            //     console.log(newValue,'newValue')
+            //     console.log(old,'old')
+            //     this.i = this.list.filter(item => item.includes(newValue))
+            // }
+
+            // 监听引用数据类型 对象 数组 函数
+            myForm:{
+                // handler是watch提供的一个函数 固定格式
+                handler(value,oldValue){
+                    console.log(value.iptValue,oldValue?.iptValue)
+                },
+                // deep是 watch提供的深度监听属性 设置为true 就可以监听数组或对象内容的改变
+                deep: true,
+                // 是否第一次进页面就执行监听
+                immediate: true,
+            }
+        }
+
+    })
+</script>
+</html>

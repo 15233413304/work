@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="a">
+        <!-- vue提供的渲染语法 通过{{变量}} 进行渲染 -->
+        <!-- {{list}} -->
+        <!-- 通过v-html渲染 -->
+        <!-- <div v-html="html">
+        </div>
+        <div v-text="html">
+        </div> -->
+        <div class="search">
+            <!-- v-model 用于双向绑定数据 可以绑定一个变量 变量改变的时候绑定的内容就会改变 绑定的内容改变的时候变量内容就会改变-->
+            <!-- v-on用于绑定事件 比如绑定点击事件 原生js中onclik 这里就是 v-on:click -->
+            <!-- v-on可以缩写成@ -->
+            <input type="text" v-model="inputValue" @input="searchFn"> <button @click="searchFn">搜索</button>
+            {{inputValue}}
+         </div>
+         <div v-for="(item,index) in list" :key="index">
+            <!-- v-bind: 可以写一写动态的值 变量 可以缩写成 : -->
+            <div :class="`item_${index}`">
+                <p>{{item.title}}</p>
+                <p>{{item.price}}¥</p>
+            </div>
+         </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        // 挂载dom根节点
+        el:'#a',
+        // 用来存放状态（源数据）的
+        data(){
+            return {
+                list: [{
+                    title:'A1',
+                    price: 90,
+                },
+                {
+                    title:'B2',
+                    price: 20,
+                },
+                {
+                    title:'A3',
+                    price: 40,
+                },
+                {
+                    title:'B4',
+                    price: 60,
+                }],
+                defaultList: [{
+                    title:'A1',
+                    price: 90,
+                },
+                {
+                    title:'B2',
+                    price: 20,
+                },
+                {
+                    title:'A3',
+                    price: 40,
+                },
+                {
+                    title:'B4',
+                    price: 60,
+                }],
+                inputValue: ''
+                // html:'<b>Hello World！</b>',
+                // text:'Hello World！'
+            }
+        },
+        // methods 是一个混入对象 会讲对象里的函数挂在到vue实例上 
+        methods:{
+            searchFn(){
+                this.list = this.defaultList.filter(item => {
+                    return item.title.includes(this.inputValue)
+                })
+            }
+        }   
+    })
+</script>
+
+</html>

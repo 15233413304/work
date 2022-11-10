@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .mask{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,.5);
+        display: flex;
+        /* 让子元素垂直居中 */
+        align-items: center;
+        /* 让子元素水平居中 */
+        justify-content: center;
+    }
+    .box{
+        width: 500px;
+        height: 200px;
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+</style>
+<body>
+    <div id="demo">
+        <div class="form">
+            <div>
+                <span>姓名：</span><input type="text" v-model="nameValue">
+            </div>
+            <div>
+                <span>年龄：</span><input type="text" v-model="ageValue">
+            </div>
+            <div>
+               <span>性别：</span>
+               <select v-model='sexValue'>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+               </select>
+            </div>
+            <button @click="add">添加/修改</button>
+        </div>
+        
+        <div class="content">
+            <table>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(item,index) in userList" :key="index">
+                    <td>{{index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.age}}</td>
+                    <td>{{item.sex}}</td>
+                    <td>
+                        <button @click="edit(index)">编辑</button>
+                        <button @click="del(index)">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mask" v-if="show">
+            <div class="box">
+                弹窗
+                <div>
+                    <span>姓名：</span><input type="text" v-model="nameValue">
+                </div>
+                <div>
+                    <span>年龄：</span><input type="text" v-model="ageValue">
+                </div>
+                <div>
+                   <span>性别：</span>
+                   <select v-model='sexValue'>
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                   </select>
+                </div>
+                <div>
+                    <button @click="submit">确定</button>
+                    <button @click="show = false">取消</button>
+                </div>
+
+            </div>
+        </div>
+        <p>总人数： {{userNum}}</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:'#demo',
+        data(){
+            return {
+                userList:[],
+                nameValue:'',
+                ageValue:'',
+                sexValue:'0',
+                // // 控制弹窗显示隐藏
+                show: false,
+                // // 编辑某一项的下标
+                // editIndex: -1,
+            }
+        },
+        methods: {
+            add(){
+                this.userList.push({
+                    name: this.nameValue,
+                    age: this.ageValue,
+                    sex: this.sexValue=='0'?'男':'女',
+                })
+            },
+            // 删除
+            del(index){
+                this.userList.splice(index,1)
+            },
+            // add(){
+            //     let { nameValue,ageValue,sexValue} = this
+            //     // 非空校验
+            //     if(nameValue != '' && ageValue != ''){
+            //         // 在userList里查找 有没有同名的人 如果有则返回下标 没有则返回-1
+            //         let index = this.userList.findIndex(item =>{
+            //             return item.name == nameValue
+            //         })
+            //         // userList里有同名的人
+            //         if(index != -1){
+            //             // 如果存在同名 直接覆盖
+            //             this.userList.splice(index,1,{
+            //                 name: nameValue,
+            //                 age: ageValue,
+            //                 sex: sexValue=='0'?'男':'女',
+            //             })
+            //         }else{
+            //             // 如果没有同名的人 直接追加
+            //             this.userList.push({
+            //                 name: nameValue,
+            //                 age: ageValue,
+            //                 sex: sexValue=='0'?'男':'女',
+            //             })
+            //         } 
+            //     }
+            // },
+            // // 编辑
+            // edit(index){
+            //     this.show = true
+            //     this.editIndex = index
+            // },
+            // submit(){
+            //     this.userList.splice(this.editIndex,1,{
+            //         name: this.nameValue,
+            //         age: this.ageValue,
+            //         sex: this.sexValue=='0'?'男':'女',
+            //     })
+            //     this.show = false
+            // }
+        },
+        // 计算属性 computed
+        computed:{
+            userNum(){
+              return this.userList.length
+            }
+        },
+        mounted(){
+            console.log(this)
+        }
+    })
+</script>
+</html>

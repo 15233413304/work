@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .header{
+        display: flex;
+    }
+    .header p{
+        margin: 5px;
+    }
+    .header .act-tab{
+        color: red;
+    }
+    .tab{
+        color: skyblue;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="header">
+           <p v-for="(item,index) in list" 
+                :key="index" 
+                :class="['tab',{'act-tab': index == currentTab}]"
+                @click="handleTab(index)">
+                 {{item.tab}} 
+            </p>
+        </div>
+        <!-- <div class="content">
+            {{list[currentTab].content}}
+        </div> -->
+        <!-- v-show 通过display: none属性 可以控制元素内容的显示隐藏  -->
+        <!-- v-show 后边可以直接写判断条件 如果判断条件为true则显示 为false 则隐藏 -->
+        <!-- <div v-for="(item,index) in list" :key="index">
+            <p v-show="index == currentTab">{{item.content}}</p>
+        </div> -->
+        <!-- v-if 用法和v-show是一样的 只不过v-if是控制有没有元素 -->
+        <!-- v-if 后边可以直接写判断条件 如果判断条件为true则渲染该元素（标签）为false 则销毁该元素（标签）  -->
+        <div v-for="(item,index) in list" :key="index">
+            <p v-if="index != currentTab"></p>
+            <p v-else>{{item.content}}</p>
+        </div>
+    </div>
+</body>
+<!-- 引入vue的cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        // 挂载dom根节点
+        el:'#app',
+
+        data(){
+            return {
+            // 当前选中的下标
+            currentTab: '0',
+            list:[],
+            }
+        },
+        methods: {
+            handleTab(index){
+                // console.log(index)
+                // 将当前选中的下标赋值成点击的下标
+                this.currentTab = index
+            }
+        },
+        created(){
+            this.list = [
+               {
+                    tab:'选项一',
+                    content: '选项一的内容'
+                },{
+                    tab:'选项二',
+                    content: '选项二的内容'
+                },{
+                    tab:'选项三',
+                    content: '选项三的内容'
+                },
+                {
+                    tab:'选项四',
+                    content: '选项四的内容'
+                },
+            ]
+            console.log('created')
+        },
+        mounted() {
+            this.list = [
+               {
+                    tab:'选项一',
+                    content: '选项一的内容'
+                },{
+                    tab:'选项二',
+                    content: '选项二的内容'
+                },{
+                    tab:'选项三',
+                    content: '选项三的内容'
+                },
+            ]
+            console.log('mounted')
+        },
+
+    })
+</script>
+</html>

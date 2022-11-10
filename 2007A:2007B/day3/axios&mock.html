@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+    <div id="app">
+        <div v-if="list.length">
+            <div v-for="(item,index) in list" :key="index">
+                <p>标题：{{item.title}}</p>
+                <p>姓名：{{item.name}}</p>
+            </div>
+        </div>
+        <div v-else>
+            暂无数据
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="http://mockjs.com/dist/mock.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+               list:[],
+            }
+        },
+        created() {
+            // 模拟数据
+            let datas = Mock.mock({
+                "list|10":[
+                    {
+                        name:'@cname',
+                        title:'@ctitle'
+                    }
+                ]
+            })
+            Mock.mock('/list', 'get', () => {
+               return datas.list
+            })
+        },
+        mounted() {
+            //请求数据
+            axios.get('/list').then(res=>{
+                this.list = res.data
+            })
+        },
+    })
+</script>
+</html>

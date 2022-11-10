@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="view">
+       <div class="search">
+          <input type="text" class="ipt"> <button class="btn">搜索</button>
+       </div>
+       <div class="list">
+
+       </div>
+    </div>
+</body>
+<script>
+    let list = [
+        {
+            title:'A1',
+            price: 90,
+        },
+        {
+            title:'B2',
+            price: 20,
+        },
+        {
+            title:'A3',
+            price: 40,
+        },
+        {
+            title:'B4',
+            price: 60,
+        }
+    ]
+    
+    let ipt = document.querySelector('.ipt')
+    let btn = document.querySelector('.btn')
+    let shopList = document.querySelector('.list')
+
+    shopList.innerHTML += list.map(item=>{
+        return `<div>
+                    <p>${item.title}</p>
+                    <p>${item.price}¥</p>
+                </div>`
+    }).join('')
+
+    // btn.onclick = (()=>{
+    //     let value = ipt.value
+    //     let searchList = list.filter(item=>{
+    //         return item.title.includes(value)
+    //     })
+    //     shopList.innerHTML = searchList.map(item=>{
+    //     return `<div>
+    //                 <p>${item.title}</p>
+    //                 <p>${item.price}¥</p>
+    //             </div>`
+    // }).join('')
+    // })
+
+    btn.addEventListener('click',()=>{
+        let value = ipt.value
+        let searchList = list.filter(item=>{
+            return item.title.includes(value)
+        })
+        shopList.innerHTML = searchList.map((item,index)=>{
+        return `<div class='item_${index}'>
+                    <p>${item.title}</p>
+                    <p>${item.price}¥</p>
+                </div>`
+        }).join('')
+    })
+</script>
+</html>
