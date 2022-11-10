@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-text="msg"></div>
+        <div>{{msg+'aaa'}}</div>
+        <div v-html="msg"></div>
+        <div v-show="msg.length">v-show</div>
+        <div v-if="isShow">v-if</div>
+        <div v-else>isNotShow</div>
+        <div v-for="(item,index) in 4" :key="index" :class="aaa">
+            {{item}}
+        </div>
+        <input type="text" @input="handleInput" v-model="inputValue">
+        <button @click="handleBtn">别点我</button>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10"></script>
+<script>
+    new Vue({
+        el:'#app',
+        // data就是用于存储vue组件的数据和状态
+        data(){
+            return {
+                msg:'<span>我是Vue</span>',
+                isShow:false,
+                list:['111','222','333'],
+                aaa:'hello',
+                inputValue:''
+            }
+        },
+        methods: {
+            handleInput(){
+                console.log(`我输入了${this.inputValue}`)
+            },
+            handleBtn(){
+                console.log('我就点')
+            }
+        },
+        created(){
+            this.handleBtn()
+            console.log(this,'created')
+        },
+        mounted(){
+            this.handleBtn()
+            console.log(this,'mounted')
+        }
+
+    })
+</script>
+</html>
