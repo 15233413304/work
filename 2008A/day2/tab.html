@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="tabs" v-if="list.length">
+            <span v-for="(item,index) in list" :key="index">
+                {{item.tab}}
+            </span>
+        </div>
+        <div class="content" v-if="list.length">
+
+        </div>
+    </div>
+</body>
+<!-- 通过cdn引入vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+<!-- 通过cdn引入mock -->
+<script src="http://mockjs.com/dist/mock.js"></script>
+<!-- 通过cdn引入axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    // 实例化vue
+    new Vue({
+        // 挂载的dom节点
+        el:'#app',
+        // 用于存放状态 源数据
+        data(){
+            return {
+                list:[]
+            }
+        },
+        // 实例创建完成 但页面还没有完成渲染
+        created(){
+            console.log('created')
+            //  mock 模拟数据 定义接口名
+            Mock.mock('/api/list','get',()=>{
+                return Mock.mock({
+                    "dataList|10":[{
+                        // tab切换标签名
+                        tab:'@ctitle(2,6)',
+                        content: "@title(2,4)"
+                    }]
+                })
+            })
+        },
+        // 页面完成渲染
+        mounted(){
+            console.log('mounted')
+            // 使用axios调用接口
+            // axios.get('/api/list').then(res=>{
+            //     // console.log(res)
+            //     this.list = res.dataList
+            // })
+            this.fetch('/api/list')
+        },
+        // 混入对象 可以写一写自定义函数  自定义函数会被混入到this中 
+        methods: {
+            fetch(url){
+                // axios 二次封装
+                var instance = axios.create();
+                instance.defaults.timeout = 2500;
+                axios.interceptors.response.use(function (response) {
+                    return response.data;
+                }, function (error) {
+                    return Promise.reject(error);
+                });
+                axios.get(url).then(res=>{
+                    this.list = res.dataList
+                })
+            }
+        },
+    })
+</script>
+</html>
