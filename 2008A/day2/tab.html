@@ -6,15 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    .tabs span{
+        background-color: skyblue;
+        margin: 10px;
+    }
+    span.active-tab{
+        background: red;
+    }
+</style>
 <body>
     <div id="app">
         <div class="tabs" v-if="list.length">
-            <span v-for="(item,index) in list" :key="index">
+            <span v-for="(item,index) in list" :key="index" @click="handleTab(index)" :class="{'active-tab': index == tabIndex}">
                 {{item.tab}}
             </span>
         </div>
+        <hr>
         <div class="content" v-if="list.length">
-
+            <div v-for="(item,index) in list" :key="index">
+                <!-- v-show 是控制元素显示隐藏的语法 原理是通过控制元素的display: none 实现显示隐藏 -->
+                <p v-show="index == tabIndex">{{item.content}}</p>
+            </div>
         </div>
     </div>
 </body>
@@ -33,7 +46,9 @@
         // 用于存放状态 源数据
         data(){
             return {
-                list:[]
+                list:[],
+                // tab的下标 默认下标为0
+                tabIndex: 0,
             }
         },
         // 实例创建完成 但页面还没有完成渲染
@@ -74,6 +89,9 @@
                 axios.get(url).then(res=>{
                     this.list = res.dataList
                 })
+            },
+            handleTab(index){
+                this.tabIndex = index
             }
         },
     })
