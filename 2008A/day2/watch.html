@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="value">
+        搜索内容：
+        <div>
+            {{searchList}}
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                value:'',
+                // form:{
+                //     value:''
+                // },
+                list:['小亮','小明','小张','张三'],
+                searchList:[]
+            }
+        },
+        // 监听对象 可以监听vue实例里的属性变化
+        watch:{
+            // 要监听的属性名 用函数的方式监听属性  这个函数有两个参数 一个是新的值 一个是旧的值
+            value(v,oldv){
+                console.log(v)
+                if(v){
+                    return this.searchList = this.list.filter(item => item.includes(v))
+                }
+                this.searchList = []
+            }
+        },
+    })
+</script>
+</html>
