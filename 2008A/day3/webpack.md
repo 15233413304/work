@@ -75,7 +75,7 @@ webpack会以 ./src/index.js为入口文件开始打包，打包后输出到./bu
 		}
 	}
 
-4、对于webpack，一切皆模块。webpack 只能理解 JavaScript 和 JSON 文件，其他类型/后缀的文件都需要经过 [loader](https://links.jianshu.com/go?to=https%3A%2F%2Fwebpack.docschina.org%2Fconcepts%2Floaders%2F) 处理，将它们转换为js可识别的有效[模块](https://links.jianshu.com/go?to=https%3A%2F%2Fwebpack.docschina.org%2Fconcepts%2Fmodules) 。
+4、对于webpack，一切皆模块。webpack 只能理解 JavaScript 和 JSON 文件，其他类型/后缀的文件都需要经过 [loader](https://webpack.docschina.org/concepts/loaders/) 处理，将它们转换为js可识别的有效[模块](https://webpack.docschina.org/concepts/modules) 。
 
 loader可以将.vue文件转换成js文件,可以做语言翻译(比如将文件从 TypeScript 转换为 JavaScript) 
 
