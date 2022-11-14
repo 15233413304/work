@@ -2,7 +2,7 @@
   <div>
     <nav-bar :tit="'商品详情'" :showLeft="true" :leftText="'返回'" @back="$router.back()"/>
     <van-image :src="detailData.img" />
-    <p>{{detailData.name}}</p>
+    <p class="name">{{detailData.name}}</p>
     <p class="price">¥{{detailData.price}}</p>
   </div>
 </template>
@@ -29,5 +29,9 @@ export default {
 </script>
 
 <style>
-
+.name{
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
