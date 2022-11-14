@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="app">
-        <input type="text" v-model="value">
+        <input type="text" v-model="form.value">
         搜索内容：
         <div>
             {{searchList}}
@@ -21,23 +21,45 @@
         el:"#app",
         data(){
             return{
-                value:'',
-                // form:{
-                //     value:''
-                // },
+                // value:'',
+                form:{
+                    value:''
+                },
                 list:['小亮','小明','小张','张三'],
                 searchList:[]
             }
         },
+        // computed计算属性 有缓存 只有依赖的数据改变时才会重新计算
+        computed:{
+            newForm(){
+                // 将 this.form 结构 返回一个名为newForm的新对象
+                return {...this.form}
+            } 
+        },
         // 监听对象 可以监听vue实例里的属性变化
         watch:{
             // 要监听的属性名 用函数的方式监听属性  这个函数有两个参数 一个是新的值 一个是旧的值
-            value(v,oldv){
-                console.log(v)
-                if(v){
-                    return this.searchList = this.list.filter(item => item.includes(v))
-                }
-                this.searchList = []
+            // value(v,oldv){
+            //     console.log(v)
+            //     if(v){
+            //         return this.searchList = this.list.filter(item => item.includes(v))
+            //     }
+            //     this.searchList = []
+            // },
+            // 直接使用watch 无法监听引用数据类型（对象数组函数）
+            // form(v,old){
+            //     console.log(v,old)
+            // },
+            // 如果监听的值是引用数据类型
+            newForm:{
+                // 如果以对象的形式使用 默认接收到一个handler回调函数
+                handler(v,old){
+                    console.log(v.value,old?.value)
+                },
+                // 深度监听属性 默认为false 深度监听无论数据的层级有多深 只要这个数据发生了变化 就会执行
+                deep: true,
+                // 是否第一次进页面就执行watch
+                immediate: true,
             }
         },
     })

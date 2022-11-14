@@ -97,7 +97,7 @@
                                 <!-- 每一天 -->
                                 <div class="item-everyday">{{i.itemDate}}</div>
                                 <!-- 小圆点 -->
-                                <div class="round" @mouseover="handleInto(j)"></div>
+                                <div class="round" v-if="i.child.length" @mouseover="handleInto(j)"></div>
                                 <!-- 小圆点对应的弹框 -->
                                 <div v-if="i.child.length" class="item-modal" v-show="j === currentShow">
                                     <div v-for="(it,idx) in i.child">

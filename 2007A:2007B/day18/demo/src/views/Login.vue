@@ -1,4 +1,4 @@
-<template>
+    <template>
   <div>
     <van-form>
         <van-field
@@ -26,6 +26,7 @@
             @click="onSubmit" 
             >登陆/注册</van-button>
         </div>
+        <van-progress :percentage="progress" />
     </van-form>
   </div>
 </template>
@@ -81,6 +82,9 @@ export default {
         onSubmit(){
             // this.$store.commit('setUser',this.phone)
             this.setUser(this.phone)
+            if( this.code.length < 6){
+                return Toast.error('验证码位数不足')
+            }
             if( this.code == this.formCode ){
                 this.loading = true
                 localStorage.setItem('token',this.phone)
@@ -100,6 +104,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.title{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
