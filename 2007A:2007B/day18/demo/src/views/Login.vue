@@ -104,10 +104,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.title{
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+<style lang="scss">
 </style>

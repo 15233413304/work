@@ -14,7 +14,7 @@
         <van-icon name="arrow-left" @click="$router.back()"/>
     </div>
     <div class="content">
-        <h4>商品名：{{detailData.name}}</h4>
+        <h4 class="title">商品名：{{detailData.name}}</h4>
         <p>价格：{{detailData.price}}</p>
     </div>
     <van-goods-action>
@@ -79,6 +79,13 @@ export default {
         background: rgba(0,0,0,.4);
         color: white;
      }
+  }
+  .content{
+    .title{
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
   }
   
 </style>
