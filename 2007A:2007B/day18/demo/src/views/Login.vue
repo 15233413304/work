@@ -26,7 +26,6 @@
             @click="onSubmit" 
             >登陆/注册</van-button>
         </div>
-        <van-progress :percentage="progress" />
     </van-form>
   </div>
 </template>

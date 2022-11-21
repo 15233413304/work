@@ -7,16 +7,6 @@ const address = {
         addressList:[],
         // 点击编辑时 展示的默认数据
         areaData:{}
-        // {
-        //   id: '1',
-        //   name: '张三',
-        //   手机号 
-        //   tel: '13000000000',
-        //   地址
-        //   address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-        //  是否为默认地址
-        //   isDefault: true,
-        // }
     },
     // 计算属性 类似于computed 
     //getters里的函数会默认接受一个参数 state

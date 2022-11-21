@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=s, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="ipt">
+        <span id="content"></span>
+        <button id="btn">哈哈哈</button>
+    </div>
+</body>
+</html>
+<script>
+    let inputValue = {}
+    // es5 Object.defineProperty 方法 对对象设置内容
+    // 第一个参数 是操作的对象
+
+    // 第二个参数 要修改的对象里的值
+
+    // 第三个参数是一个对象 对象里 有两个方法
+    // 一个是get 方法 一个是 set方法(可以动态赋值)
+    Object.defineProperty(inputValue,'con',{
+        get(){
+            return con
+        },
+        // set方法还会接收一个参数 新的值
+        set(value){
+            ipt.value = value
+            content.innerHTML = value
+        }
+    })
+    ipt.addEventListener('input', function (e) {
+        inputValue.con = e.target.value
+    })
+
+    btn.addEventListener('click', function(e){
+        inputValue.con = '点击按钮' 
+    })
+
+</script>
