@@ -18,6 +18,7 @@ let shop = {
         }
     },
     mutations:{
+        // 加入购物车
         setShop(state,data){
             // console.log({...data,count:1})
             // 判断购物车列表里 有没有现在点击加入购物车的这个商品
@@ -34,6 +35,11 @@ let shop = {
             }
             // 有这个商品 再次点击加入购物车时 使商品的数量+1
             state.shopList[shopIndex].count += 1
+        },
+        // 删除购物车商品
+        delShop(state,id){
+            let index = state.shopList.findIndex(item=> item.id == id)
+            state.shopList.splice(index,1)
         }
     },
     actions:{}
