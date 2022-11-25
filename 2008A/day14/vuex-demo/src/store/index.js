@@ -3,6 +3,8 @@ import Vuex from "vuex";
 import axios from '@/utils/http'
 // 在数据持久化插件包中引入一个 createVuexPersistedState 函数
 import { createVuexPersistedState } from "vue-persistedstate";
+
+import shop from '@/store/module/shop'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -65,5 +67,7 @@ export default new Vuex.Store({
     }
   },
   // vuex模块化 可以将页面按需求 按逻辑分为多个模块仓库 统一管理
-  modules: {},
+  modules: {
+    shop,
+  },
 });

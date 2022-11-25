@@ -11,10 +11,17 @@ const routes = [
     redirect: '/home',  // 重定向:重新指向其它path,会改变网址
     // 子路由
     children:[
+      // 主页
       {
         path: "/home",
         name: "Home",
         component: () => import( "../views/HomeView.vue"),
+      },
+      // 购物车
+      {
+        path: "/shop",
+        name: "ShopCar",
+        component: () => import( "../views/ShopCar.vue"),
       },
     ]
   },
