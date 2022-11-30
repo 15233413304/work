@@ -25,6 +25,8 @@ export default new Vuex.Store({
     //   address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
     //   isDefault: true,
     // },
+    // 提交订单的商品
+    submitShop:[],
   },
   getters: {},
   mutations: {
@@ -68,6 +70,15 @@ export default new Vuex.Store({
       }
       // 新增
       state.addressList.push({...data})
+    },
+    // 删除商品
+    delShop(state,id){
+      let index = state.shopList.findIndex(item=> item.id == id)
+      state.shopList.splice(index,1)
+    },
+    //提交订单
+    setSubmit(state,list){
+      state.submitShop = [...state.submitShop].concat([...list])
     }
   },
   actions: {
@@ -75,6 +86,9 @@ export default new Vuex.Store({
       let { page, pageSize, tabIndex} = data
       let res = await axios.get('/api/list',{params: { page, pageSize, tabIndex} })
       commit('setList', res)
+    },
+    delSubmitShop({commit},id){
+      commit('delShop',id)
     }
   },
   modules: {},
