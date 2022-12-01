@@ -4,7 +4,7 @@
     <van-address-edit
         :area-list="areaList"
         :address-info="defaultData"
-        show-delete
+        :show-delete="!!$route.query.id"
         show-set-default
         show-search-result
         :search-result="searchResult"
@@ -54,7 +54,10 @@ export default {
       this.$router.push('/address')
     },
     onDelete() {
-      Toast('delete');
+      // Toast('delete');
+      let {id} = this.$route.query
+      this.$store.commit('DelAddress',id)
+      this.$router.replace('/address')
     },
     onChangeDetail(val) {
       if (val) {

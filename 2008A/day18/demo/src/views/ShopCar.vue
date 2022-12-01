@@ -30,7 +30,7 @@
       <van-button type="info" size="mini" @click="checkAll">全选</van-button>
 
       <van-button type="info" size="mini" @click="toggleAll">反选</van-button>
-      <template #tip v-if="!MyCity">
+      <template #tip v-if="$store.state.addressList[0] && !MyCity">
         你的收货地址不支持同城送, <span @click="onClickEditAddress">修改地址</span>
       </template>
     </van-submit-bar>

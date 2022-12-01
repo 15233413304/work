@@ -71,6 +71,11 @@ export default new Vuex.Store({
       // 新增
       state.addressList.push({...data})
     },
+    // 删除地址
+    DelAddress(state,id){
+      let index = state.addressList.findIndex(item=> item.id ==id)
+      state.addressList.splice(index,1)
+    },
     // 删除商品
     delShop(state,id){
       let index = state.shopList.findIndex(item=> item.id == id)
@@ -79,7 +84,7 @@ export default new Vuex.Store({
     //提交订单
     setSubmit(state,list){
       state.submitShop = [...state.submitShop].concat([...list])
-    }
+    },
   },
   actions: {
     async getList({commit},data){

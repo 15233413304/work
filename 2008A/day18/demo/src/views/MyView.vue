@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="submitShop.length">
     <van-card 
       v-for="item in submitShop"
       :key="item.id"
@@ -15,6 +15,12 @@
       <van-step>交易完成</van-step>
     </van-steps>
   </div>
+  <van-empty
+    v-else
+    class="custom-image"
+    image="https://img01.yzcdn.cn/vant/custom-empty-image.png"
+    description="暂无购买商品，快去剁手吧～"
+  />
 </template>
 
 <script>

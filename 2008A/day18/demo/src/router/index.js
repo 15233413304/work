@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Index from "../views/Index.vue";
-
+import Index from "@/views/Index.vue";
+import OutLine from '@/views/OutLine.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -39,6 +39,11 @@ const routes = [
         path:'address',
         name:'Address',
         component: ()=> import('@/views/AddressView.vue')
+      },
+      {
+        path: 'outline',
+        name: 'OutLine',
+        component: OutLine
       }
     ]
   },
@@ -58,6 +63,10 @@ const routes = [
     path: "/address/edit",
     name: "AddressEidt",
     component: ()=> import('@/views/AddressEidt.vue'),
+  },
+  {
+    path:'/404',
+    component: ()=> import('@/views/404Page.vue')
   }
 ];
 
@@ -67,8 +76,13 @@ const router = new VueRouter({
   routes,
 });
 
-let whiteList = ['/login','/home','Detail']
+let whiteList = ['/login','/home','Detail','/outline','/404']
 router.beforeEach((to,from,next)=>{
+  // console.log(to)
+  // 判断跳转的地址存不存在
+  if(!to.matched.length){
+    next('/404')
+  }
   const token = localStorage.token
   // 如果没有登陆 并且 不在白名单内 就拦截
   if(!token && !whiteList.includes(to.path) && !whiteList.includes(to.name)){
