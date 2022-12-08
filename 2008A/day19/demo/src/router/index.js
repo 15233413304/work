@@ -14,7 +14,10 @@ const routes = [
       {
         path:'home',
         name:'Home',
-        component: ()=> import('@/views/HomeView.vue')
+        component: ()=> import('@/views/HomeView.vue'),
+        meta:{
+          keepAlive: true
+        }
       },
       {
         path:'shop',
@@ -81,9 +84,11 @@ const router = new VueRouter({
   routes,
 });
 
+// 路由白名单 哪些路由不需要拦截就写在里面 一定要写上login页面 不然会递归报错 (超出最大栈堆调用)
+// 如果跳转详情页 不可以用path做拦截 因为详情页路由是动态生成的 有多少种详情就有多少种详情路由
+// 要使用to.name判断详情页的路由name属性
 let whiteList = ['/login','/home','Detail','/outline','/404']
 router.beforeEach((to,from,next)=>{
-  // console.log(to)
   // 判断跳转的地址存不存在
   if(!to.matched.length){
     next('/404')

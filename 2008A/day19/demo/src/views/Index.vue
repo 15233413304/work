@@ -4,7 +4,13 @@
         <van-nav-bar title="hello"/>
     </div>
     <div class="body">
-        <router-view></router-view>
+        <keep-alive>
+            <!-- 需要缓存的路由页 -->
+            <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath"/>
+        </keep-alive>
+        <!-- 不缓存的路由页 -->
+        <router-view v-if="!$route.meta.keepAlive"/>
+        
     </div>
     <div class="footer">
         <van-tabbar route>
