@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 消除元素自带的填充和间距 */
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        dl{
+            /* 将dl元素转换为弹性盒 使其子元素同行显示 */
+            display: flex;
+        }
+        dt img{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面的容器 -->
+    <div class="contaier">
+        <!-- 头部的容器 放一个标题 -->
+        <h3 class="header">
+            校园超市
+        </h3>
+        <!-- 页面的主要内容 -->
+        <div class="body">
+            <!-- 模糊搜索 -->
+            <div class="search">
+                <input type="text" class="search-ipt">
+                <button class="search-btn">搜索🔍</button>
+            </div>
+            <!-- 商品列表 -->
+            <div class="list">
+                <!-- <dl>
+                    <dt>
+                        <img src="https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079" alt="">
+                    </dt>
+                    <dd>
+                        <p>商品名</p>
+                        <p>商品描述xxxx</p>
+                        <p>99¥</p>
+                    </dd>
+                </dl> -->
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+// 获取dom
+let SearchBtn = document.querySelector('.search-btn')
+let SearchIpt = document.querySelector('.search-ipt')
+let ListDom = document.querySelector('.list')
+
+// 模拟数据
+let list = [
+    {
+        // 商品图片
+        img:'https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079',
+        // 商品名
+        name:'aaa',
+        // 商品描述
+        desc:'想学习啊实打实大是大非苦尽甘来空间',
+        // 商品价格
+        price: 98
+    },
+    {
+        // 商品图片
+        img:'https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079',
+        // 商品名
+        name:'bbb',
+        // 商品描述
+        desc:'想学习啊实打实大是大非苦尽甘来空间',
+        // 商品价格
+        price: 98
+    },
+    {
+        // 商品图片
+        img:'https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079',
+        // 商品名
+        name:'ccc',
+        // 商品描述
+        desc:'想学习啊实打实大是大非苦尽甘来空间',
+        // 商品价格
+        price: 98
+    },
+    {
+        // 商品图片
+        img:'https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079',
+        // 商品名
+        name:'abc',
+        // 商品描述
+        desc:'想学习啊实打实大是大非苦尽甘来空间',
+        // 商品价格
+        price: 98
+    },
+    {
+        // 商品图片
+        img:'https://img2.baidu.com/it/u=1003272215,1878948666&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=dc7b8df46e987b02725f2bc79c463079',
+        // 商品名
+        name:'bac',
+        // 商品描述
+        desc:'想学习啊实打实大是大非苦尽甘来空间',
+        // 商品价格
+        price: 98
+    }
+]
+// 克隆一下这个数据 用来显示默认数据或搜索后显示的数据
+let defaultList = [...list]
+
+function RenderDom(){
+    // 清空商品列表的内容
+    ListDom.innerHTML = ''
+    defaultList.map(item=>{
+        return ListDom.innerHTML += `
+            <dl>
+                <dt>
+                    <img src="${item.img}" alt="">
+                </dt>
+                <dd>
+                    <p>${item.name}</p>
+                    <p>${item.desc}</p>
+                    <p>${item.price}¥</p>
+                </dd>
+            </dl>`
+    })
+}
+RenderDom()
+
+// 做一个模糊搜索 监听搜索按钮的点击事件 触发事件后执行回调函数
+SearchBtn.addEventListener('click',()=>{
+    let { value } = SearchIpt
+    // 有没有输入值
+    if(value){
+        // 筛选出 包含输入值的商品 并且重新渲染
+        defaultList = list.filter(item=>{
+            return item.name.includes(value)
+        })
+        RenderDom()
+    }else{
+        // 没输入内容 直接初始化数据 展示所有商品
+        defaultList = [...list]
+        RenderDom()
+    }
+})
+
+
+</script>
+</html>

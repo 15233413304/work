@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* 清除标签/元素自带的一些默认 间距 填充 */
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    dl{
+        /* 将dl转换为弹性盒 （dl子元素/子标签 同行显示） */
+        display: flex;
+    }
+    dd img{
+        width: 150px;
+    }
+</style>
+<body>
+        <!-- 给一个大盒子作为页面的容器 -->
+        <div id="box">
+            <!-- 头部容器 - 承载标题的容器 -->
+            <h3 class="header">
+                校园超市
+            </h3>
+            <!-- 写页面内容的容器 -->
+            <div class="body">
+                <!-- 搜索框容器 -->
+                <div class="search">
+                    <!-- 输入框 -->
+                    <!-- v-model 是vue中提供的一个双向绑定的方法 它其实是一个其他指令合成出来的语法糖 -->
+                    <!-- v-model 可以将绑定的值 实现一个双向绑定 -->
+                    <input type="text" v-model="searchValue">
+                    <!-- 搜索按钮 -->
+                    <!-- 点击事件 使用vue中的 v-on: 指令来绑定  -->
+                    <!-- <button v-on:click="handleSearch">搜索🔍</button> -->
+                    <!-- 点击事件 使用vue中的 v-on: 指令来绑定 可以缩写成@  -->
+                    <button @click="handleSearch">搜索🔍</button>
+                    
+                </div>
+                <!-- 渲染列表 -->
+                <!-- v-if指令 是vue提供用于判断条件 来展示不同的内容使用的 会生成或销毁元素 -->
+                <!-- <div class="list" v-if="!isSearch"> -->
+                <!-- v-show指令 也是可以实现类似于v-if的效果 但是不会销毁元素 只是通过css的display:none 来控制显示隐藏 -->
+                <div class="list" v-show="!isSearch">
+                    <!-- 每一项商品 -->
+                    <!--  v-for 指令是vue提供的遍历列表的指令  可以接收数据的每一项 和 每一项的下标 -->
+                    <!-- :key="" 是一个标识符 用于确保渲染的数据是独一无二的 -->
+                    <dl v-for="(item,index) in list" :key="index">
+                        <dd>
+                            <!-- 使用v-bind: 指令 使这个值变为动态的 -->
+                            <!-- <img v-bind:src="item.img" alt=""> -->
+                            <!-- 使用v-bind: 指令 使这个值变为动态的 可以缩写成: -->
+                            <img :src="item.img" alt="">
+                        </dd>
+                        <dt>
+                            <!-- 渲染语法 {{}}  (类似于模板字符串中的`${}`) -->
+                            <p>{{item.title}}</p>
+                            <!-- 还可以使用v-text v-text只能渲染纯文本 -->
+                            <p v-text="item.desc"></p>
+                            <!-- 还可以使用v-html v-html会识别html中的标签元素 -->
+                            <p v-html="item.price+'<span>¥</span>'"></p>
+                        </dt>
+                    </dl>
+                </div>
+                <!-- v-else 需要配合 v-if使用 类似于js中的 if else -->
+                <!-- 使用v-else时  中间不要放其他的元素 -->
+                <!-- <div class="search-list" v-else> -->
+                <div class="search-list" v-show="isSearch">
+                     <!-- 每一项商品 -->
+                    <!--  v-for 指令是vue提供的遍历列表的指令  可以接收数据的每一项 和 每一项的下标 -->
+                    <!-- :key="" 是一个标识符 用于确保渲染的数据是独一无二的 -->
+                    <dl v-for="(item,index) in searchList" :key="index">
+                        <dd>
+                            <!-- 使用v-bind: 指令 使这个值变为动态的 -->
+                            <!-- <img v-bind:src="item.img" alt=""> -->
+                            <!-- 使用v-bind: 指令 使这个值变为动态的 可以缩写成: -->
+                            <img :src="item.img" alt="">
+                        </dd>
+                        <dt>
+                            <!-- 渲染语法 {{}}  (类似于模板字符串中的`${}`) -->
+                            <p>{{item.title}}</p>
+                            <!-- 还可以使用v-text v-text只能渲染纯文本 -->
+                            <p v-text="item.desc"></p>
+                            <!-- 还可以使用v-html v-html会识别html中的标签元素 -->
+                            <p v-html="item.price+'<span>¥</span>'"></p>
+                        </dt>
+                    </dl>
+                </div>
+            </div>
+        </div>
+</body>
+<!-- 引入vue cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 将Vue实例化
+    new Vue({
+        // vue 最终挂载到什么元素上
+        el:'#box',
+        // data vue提供一个数据管理函数
+        data(){
+            return{
+                // 定义一个商品列表的数据
+                list:[
+                    {
+                        // 商品图片
+                        img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+                        // 商品标题
+                        title: '君xx宝',
+                        // 信息描述
+                        desc:'君乐宝真好喝XXXXX',
+                        // 价格
+                        price:'98'
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+                        // 商品标题
+                        title: '君22宝',
+                        // 信息描述
+                        desc:'君乐宝真好喝XXXXX',
+                        // 价格
+                        price:'91'
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+                        // 商品标题
+                        title: '君乐宝',
+                        // 信息描述
+                        desc:'君乐宝真好喝XXXXX',
+                        // 价格
+                        price:'92'
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+                        // 商品标题
+                        title: '君44宝',
+                        // 信息描述
+                        desc:'君乐宝真好喝XXXXX',
+                        // 价格
+                        price:'93'
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+                        // 商品标题
+                        title: '君55宝',
+                        // 信息描述
+                        desc:'君乐宝真好喝XXXXX',
+                        // 价格
+                        price:'94'
+                    }
+                ],
+                //搜索后显示的商品内容
+                searchList: [],
+                // 是否展示搜索的列表
+                isSearch: false,
+                // 搜索内容
+                searchValue: '',
+            }
+        },
+        // methods vue提供的 methods混入方法 可以在这里定义一些自定义函数
+        methods: {
+            handleSearch(){
+                // 判断有没有搜索内容
+                if(this.searchValue.length){
+                    this.isSearch = true
+                    // 筛选出来 模糊搜索的内容
+                    this.searchList = this.list.filter(item=>{
+                        return item.title.includes(this.searchValue)
+                    })
+                    // 不让他再往下走
+                    return
+                }
+                // 如果走到这里 说明搜索内容是空的
+                this.isSearch = false
+
+            }
+        },
+    })
+</script>
+</html>

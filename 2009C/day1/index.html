@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+/* 清除标签/元素自带的一些默认 间距 填充 */
+*{
+    margin: 0;
+    padding: 0;
+}
+dl{
+    /* 将dl转换为弹性盒 （dl子元素/子标签 同行显示） */
+    display: flex;
+}
+.item img{
+    width: 150px;
+}
+</style>
+<body>
+    <!-- 给一个大盒子作为页面的容器 -->
+    <div id="box">
+        <!-- 头部容器 - 承载标题的容器 -->
+        <h3 class="header">
+            校园超市
+        </h3>
+        <!-- 写页面内容的容器 -->
+        <div class="body">
+            <!-- 搜索框容器 -->
+            <div class="search">
+                <!-- 输入框 -->
+                <input type="text" class="search-ipt">
+                <!-- 搜索按钮 -->
+                <button class="search-btn">搜索🔍</button>
+            </div>
+            <!-- 渲染列表 -->
+            <div class="list">
+                <!-- 每一项商品 -->
+                <!-- <dl class="item">
+                    <dd>
+                        <img src="https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591" alt="">
+                    </dd>
+                    <dt>
+                        <p>商品标题</p>
+                        <p>商品信息描述</p>
+                        <p>98¥</p>
+                    </dt>
+                </dl> -->
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 定义一个商品列表的数据
+    let list = [
+        {
+            // 商品图片
+            img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+            // 商品标题
+            title: '君xx宝',
+            // 信息描述
+            desc:'君乐宝真好喝XXXXX',
+            // 价格
+            price:'98'
+        },
+        {
+            // 商品图片
+            img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+            // 商品标题
+            title: '君22宝',
+            // 信息描述
+            desc:'君乐宝真好喝XXXXX',
+            // 价格
+            price:'91'
+        },
+        {
+            // 商品图片
+            img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+            // 商品标题
+            title: '君乐宝',
+            // 信息描述
+            desc:'君乐宝真好喝XXXXX',
+            // 价格
+            price:'92'
+        },
+        {
+            // 商品图片
+            img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+            // 商品标题
+            title: '君44宝',
+            // 信息描述
+            desc:'君乐宝真好喝XXXXX',
+            // 价格
+            price:'93'
+        },
+        {
+            // 商品图片
+            img:'https://img2.baidu.com/it/u=2133221377,723778359&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1670605200&t=76e28014ea530902bf4294dbe0c43591',
+            // 商品标题
+            title: '君55宝',
+            // 信息描述
+            desc:'君乐宝真好喝XXXXX',
+            // 价格
+            price:'94'
+        }
+    ]
+    // 默认显示的商品内容 搜索后显示的商品内容
+    let defaultList = [...list]
+
+    // 获取dom 
+    let searchIpt = document.querySelector('.search-ipt')
+    let searchBtn = document.querySelector('.search-btn')
+    let listDom = document.querySelector('.list')
+    //渲染列表
+    function RenderList(){
+        // 将列表先清空
+        listDom.innerHTML = ''
+        // 渲染列表
+        defaultList.map(item=>{
+            return listDom.innerHTML += ` 
+            <dl class="item">
+                <dd>
+                    <img src="${item.img}" alt="">
+                </dd>
+                <dt>
+                    <p>${item.title}</p>
+                    <p>${item.desc}</p>
+                    <p>${item.price}¥</p>
+                </dt>
+            </dl>
+            `
+        })
+    }
+    RenderList()
+
+    // 监听 搜索按钮的点击事件  如果触发点击事件 执行一个回调函数
+    searchBtn.addEventListener('click', ()=> {
+        // 输入框的搜索内容
+        let { value } = searchIpt
+        // 判断一下输入框是否输入内容
+        if(value.length){
+            // 模糊搜索  搜索列表中包含搜索内容的商品 并返回一个新的列表
+            defaultList = list.filter(item=>{
+                return item.title.includes(value)
+            })
+            // 重新渲染
+            RenderList()
+        }else{
+            // 显示所有商品
+            defaultList = [...list]
+            // 重新渲染
+            RenderList()
+        }
+    })
+
+</script>
+</html>
