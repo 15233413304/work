@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="form.value">
+        <div>
+            <p v-for="item in searchList" :key="item.id">
+                {{item.name}}
+            </p>
+        </div>
+    </div>
+</body>
+<!-- 引入cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                // 列表
+                myList:[
+                    {
+                        name:'今天天气真好',
+                        id:'1'
+                    },
+                    {
+                        name:'是啊',
+                        id:'2'
+                    },
+                    {
+                        name:'明天天气更好',
+                        id:'3'
+                    },
+                ],
+                // 输入框的内容
+                // value:'',
+                form:{
+                    value:''
+                },
+                // 搜索后的列表
+                searchList:[]
+            }
+        },
+        computed: {
+            computedForm(){
+                // return JSON.parse(JSON.stringify(this.form))
+                return {...this.form}
+            }
+        },
+        // 监听属性 可以监听vue实例中属性 变化  当属性发生变化时 就会执行这里的操作
+        watch:{
+            // 监听this.value  用函数进行监听时 有两个参数 第一个参数是当前的值 第二个参数是改变之前的值 新值/旧值
+            // value(val,oldValue){
+            //     console.log(val,oldValue)
+            //     this.searchList = this.myList.filter(item=> item.name.includes(val))
+            // } 
+            // 这个监听属性可以用对象的方式来定义
+            // value:{
+            //     // 当监听的值发生改变时 会执行这个handler（固定单词）函数
+            //     handler(val,oldValue){
+            //         this.searchList = this.myList.filter(item=> item.name.includes(val))
+            //     },
+            //     // 是否在第一次进页面就执行这个 handler函数 immediate 默认是false 若为true 第一次进页面就执行handler
+            //     immediate: true
+            // }
+
+            // 监听属性可以监听对象的变化 当监听的值是对象/数组这种引用数据类型时 需要加一个深度监听属性
+            // 监听对象时 加了deep属性也会存在一个问题： 新值和旧值一样 可以利用computed 缓存 和深拷贝方法 解决这个问题
+            computedForm:{
+                // 当监听的值发生改变时 会执行这个handler（固定单词）函数
+                handler(val,oldValue){
+                    console.log(val,oldValue)
+                    this.searchList = this.myList.filter(item=> item.name.includes(val.value))
+                },
+                // 是否在第一次进页面就执行这个 handler函数 immediate 默认是false 若为true 第一次进页面就执行handler
+                immediate: true,
+                // 深度监听属性 deep 默认是false  当设置为true 该监听数据的内部发生变化时 也会触发handler
+                deep: true,
+            }
+        }
+    })
+</script>
+</html>

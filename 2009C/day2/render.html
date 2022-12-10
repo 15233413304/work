@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        123
+    </div>
+</body>
+<!-- 引入vue的cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                list:[
+                    {
+                        name:'小亮',
+                        age:25
+                    },
+                    {
+                        name:'小张',
+                        age:24
+                    }
+                ]
+            }
+        },
+        // vue实例中的 render函数 render函数里会接收一个形参createElement 这个参数是一个方法
+        // createElement(元素/标签/组件,{属性},渲染的内容)
+        render(createElement){
+            return createElement('div',{},this.list.map((item,index)=>{
+                // 将对象的键值组成一个数组
+                let values = Object.values(item)
+                return createElement('p',{class:`tab_${index}`},values.map(i=>{
+                    return createElement('p',{},i)
+                }))
+            }))
+        }
+    })
+</script>
+</html>

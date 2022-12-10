@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="form.value">
+        搜索内容：
+        <div>{{searchList}}</div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                // value:'',
+                form:{
+                    value:''
+                },
+                list:['123','321','今天你吃饭了吗'],
+                searchList:[]
+            }
+        },
+        computed: {
+            myValue(){
+                return {...this.form}
+            }
+        },
+        // 监听方法 可以监听vue实例里的变化
+        watch:{
+            // watch里写监听的属性名 用函数的方式监听 有两个参数 第一个是新值 第二个是旧值
+            // value(v,oldv){
+                // if(v){
+                //     return this.searchList = this.list.filter(item=> item.includes(v))
+                // }
+                // this.searchList = []
+            // }
+            // 不能直接监听到对象内部的变化
+            // form(v,oldv){
+                // if(v.value){
+                //     return this.searchList = this.list.filter(item=> item.includes(v.value))
+                // }
+                // this.searchList = []
+            // }
+            // 当监听对象或数组 这种引用数据类型时
+            form:{
+                handler(v,old){
+                    console.log(v,old)
+                    if(v.value){
+                        return this.searchList = this.list.filter(item=> item.includes(v.value))
+                    }
+                    this.searchList = []
+                },
+                // 深度监听 默认为false  深度监听无论对象或数组的层级有多深 其内部属性只要改变就能监听到
+                deep: true,
+                // 是否第一次进页面就执行 默认为false
+                immediate: true
+            }
+        }
+    })
+</script>
+</html>

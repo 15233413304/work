@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 提交表单 -->
+        <div>
+            姓名：<input type="text" v-model="form.name">
+        </div>
+        <div>
+            年龄：<input type="text" v-model="form.age">
+        </div>
+        <div>
+            性别：
+            <select v-model="form.sex">
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+        </div>
+        <!-- v-on: 缩写成@  -->
+        <button @click="handleCreate">添加/修改</button>
+        <!-- 表格 -->
+        <table>
+            <!-- 表头标题 -->
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>操作</th>
+            </tr>
+            <!-- 内容 -->
+            <tr v-for="(item,index) in list" :key="index">
+                <td>{{index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.sex == '1'?'男':'女'}}</td>
+                <td>
+                    <button @click="handleDelete(index)">删除</button>
+                    <button>编辑</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<!-- 引入vue的cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                form:{
+                    name:'',
+                    age:'',
+                    sex:'',
+                },
+                // table 表格的数据
+                list:[]
+            }
+        },
+        methods:{
+            // 点击事件触发后 调用的函数
+            handleCreate(){
+                // 将姓名 年龄 性别 从form中解构
+                let { name,age,sex } = this.form
+                // 判断是否输入值
+                if( name.length && age.length && sex.length){
+                    // 判断list数组里是否有这个名字 
+                    // 使用原生js中的方法来进行搜索  findIndex() 该方法会遍历数组的每一项 
+                    // 如果说某一项符合搜索的条件 那就返回这一项的下标 如果没有那就返回-1
+                    // includes()  检查数组中或者字符串中 是否包含传过来的参数 如果包含 返回true 如果不包含返回false
+                    let index = this.list.findIndex(item=> item.name.includes(name))
+                    if(index != -1){
+                        // 如果index 不等于-1 说明 这个数组里有这个名字 那就进行修改的操作
+                        // splice() 可以增删改 第一个参数是要操作的下标 第二个参数是删除的位数 第三个参数是要增加的值
+                        // 如果数组中有这个姓名 那就是修改的操作
+                        return this.list.splice(index, 1,{name,age,sex})
+                    }
+                    // 如果逻辑能走到这里 说明数组中是没有这个名字的,直接添加
+                    this.list.push({name, age, sex})
+                }
+            },
+            // 点击删除按钮后 调用的函数
+            handleDelete(index){
+                this.list.splice(index,1)
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .shop{
+            display: inline-block;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <label>全选</label><input type="checkbox" v-model="isCheckAll" @change="handleCheckAll">
+        <div class="shop" v-for="item in list" :key="item.id">
+            <input type="checkbox" v-model="item.isCheck" @change="handleCheck">
+            <img :src="item.img" alt="">
+            <p>{{item.name}}</p>
+            <p>{{item.price}}</p>
+        </div>
+        <div>
+            总价格：{{allPrice}}
+        </div>
+    </div>
+</body>
+<!-- 引入vue的cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!-- 引入mockjs的cdn -->
+<script src="https://mockjs.com/dist/mock.js"></script>
+<!-- 引入axios的cdn -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        el:'#app',
+        data(){
+            return {
+                list:[],
+                // 是否全选
+                isCheckAll:false,
+            }
+        },
+        created(){
+            console.log('created')
+            // 使用mockjs定义一个接口
+            Mock.mock('/api/list','get',()=>{
+                // 使用mockjs模拟数据
+                return Mock.mock({
+                    "list|10":[
+                        {
+                            // 商品图片
+                            img:'@image(50x50,@color)',
+                            // 商品名
+                            name:'@ctitle(2,7)',
+                            // 价格
+                            "price|10-80":1,
+                            id:'@id',
+                            // 是否选中
+                            isCheck:false,
+                        }
+                    ]
+                })
+            })
+        },
+        mounted(){
+            console.log('mounted')
+            // 调用getList函数
+            this.getList()
+        },
+        methods: {
+            // 获取接口数据 返回给列表
+            getList(){
+                var instance = axios.create();
+                // 设置延迟时间
+                instance.defaults.timeout = 2500;
+                // 添加请求拦截器
+                axios.interceptors.request.use(function (config) {
+                    // 在发送请求之前做些什么
+                    return config;
+                }, function (error) {
+                    // 对请求错误做些什么
+                    return Promise.reject(error);
+                });
+                // 添加响应拦截器
+                axios.interceptors.response.use(function (response) {
+                    // 对响应数据做点什么
+                    return response;
+                }, function (error) {
+                    // 对响应错误做点什么
+                    return Promise.reject(error);
+                });
+                axios.get('/api/list').then(res=>{
+                    console.log(res)
+                    // 将列表赋值为返回的数据
+                    this.list = res.data.list
+                })
+            },
+            // 全选
+            handleCheckAll(){
+                this.list.forEach(item=>{
+                    item.isCheck = this.isCheckAll
+                })
+            },
+            // 单选
+            handleCheck(){
+                // 使用every方法判断 every() 会遍历数组 如果数组全符合条件 则返回true 如果有任意一项不符合条件就返回false
+                this.isCheckAll = this.list.every(item=> item.isCheck)
+            }
+        },
+        // 计算属性
+        computed:{
+            // 计算属性内部的变量 只有依赖的数据改变时才会重新计算 否则使用缓存的值
+            allPrice(){
+                // 先筛选出选中的商品
+                let list = this.list.filter(item=> item.isCheck)
+                // reduce()  js提供的计算方法 有两个参数 第一个参数是一个回调函数 第二个参数是一个初始值
+                // 回调函数里又有两个参数 第一个参数是上一次计算结果  第二个参数是参与计算的值 第一次循环 第一个参数是初始值
+                return list.reduce((prev,next)=>{
+                    return prev + next.price
+                },0)
+            }
+        }
+    })
+</script>
+
+</html>

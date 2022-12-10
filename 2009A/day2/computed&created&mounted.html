@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .shop{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <label>全选</label><input type="checkbox" v-model='isCheckAll' @change="changeCheckALl"/>
+        <div class="shop" v-for="item in shop" :key="item.id">
+            <input type="checkbox" v-model="item.isCheck" @change="changeCheck"/>
+            <!-- 商品图片 -->
+            <img :src="item.img" alt="">
+            <!-- 商品名 -->
+            <p>{{item.name}}</p>
+            <!-- 商品价格 -->
+            <p>{{item.price}}</p>
+        </div>
+        <div>
+            选中商品的总价：{{allPrice}}
+        </div>
+    </div>
+</body>
+<!-- 引入vue cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!-- 引入mockjs cdn -->
+<script src="https://mockjs.com/dist/mock.js"></script>
+<!-- 引入axios 的cdn -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    // 实例化vue
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                // 商品数据
+                shop:[],
+                // 全选状态
+                isCheckAll:false,
+            }
+        },
+        created(){
+            console.log('created');
+            // 使用mockjs模拟数据
+            Mock.mock('/api/list','get',()=>{
+                return Mock.mock({
+                    "list|10":[
+                        {
+                            // 模拟商品名
+                            name:'@ctitle(2,6)',
+                            // 模拟商品价格
+                            "price|10-99":1,
+                            // 模拟图片
+                            img:'@image(100x100,@color)',
+                            // 商品id
+                            id:'@id',
+                            // 是否选中 默认为不选中
+                            isCheck:false,
+                        }
+                    ]
+                })
+            })
+        },
+        mounted() {
+            console.log('mounted');
+            this.getList()
+        },
+        methods: {
+            // 获取列表
+            getList(){
+                var instance = axios.create();
+                instance.defaults.timeout = 2500;
+                // 添加请求拦截器
+                axios.interceptors.request.use(function (config) {
+                    // 在发送请求之前做些什么
+                    return config;
+                }, function (error) {
+                    // 对请求错误做些什么
+                    return Promise.reject(error);
+                });
+
+                // 添加响应拦截器
+                axios.interceptors.response.use(function (response) {
+                    // 对响应数据做点什么
+                    return response;
+                }, function (error) {
+                    // 对响应错误做点什么
+                    return Promise.reject(error);
+                });
+                axios.get('/api/list').then(res=>{
+                    this.shop = res.data.list
+                })
+            },
+            // 改变全选状态
+            changeCheckALl(){
+                this.shop.forEach(item => {
+                    // 将单选的状态赋值成全选的状态
+                    item.isCheck = this.isCheckAll
+                });
+            },
+            // 单选状态改变
+            changeCheck(){
+                // js中的every方法 every() 会遍历数组 并且数组中每一项都要符合条件 如果有一项不符合 那就返回false 如果都符合 返回true
+                this.isCheckAll = this.shop.every(item=>{
+                    return item.isCheck
+                })
+            }
+        },
+        // 计算属性 在computed里定义的函数 会依赖于某些数据 只有依赖的数据改变时才会重新计算 否则计算的值就缓存下来
+        computed:{
+            allPrice(){
+                // 先拿到选中的商品是哪些
+                let list = this.shop.filter(item=> item.isCheck)
+                return list.reduce((prev,next)=>{
+                    return prev + next.price
+                },0)
+            }
+        },
+    })
+</script>
+</html>

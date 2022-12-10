@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .item{
+        background: skyblue;
+    }
+    .active-item{
+        background: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <span v-for="(item,index) in list" :key="index" @click="tabIndex = index"
+        :class="{item: true,'active-item': index == tabIndex}">
+            {{item.tit}}
+        </span>
+        <hr>
+        <p>
+            {{list[tabIndex].con}}
+        </p>
+    </div>
+</body>
+<!-- 引入cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+<!-- 实例化vue -->
+<script>
+new Vue({
+    el:'#app',
+    data(){
+        return{
+            list:[
+                {
+                    tit:'分类1',
+                    con:'撒打算打算1'
+                },
+                {
+                    tit:'分类2',
+                    con:'撒打算打算2'
+                },
+                {
+                    tit:'分类3',
+                    con:'撒打算打算3'
+                },
+                {
+                    tit:'分类4',
+                    con:'撒打算打算4'
+                },
+                {
+                    tit:'分类5',
+                    con:'撒打算打算5'
+                },
+            ],
+            // tab切换的下标
+            tabIndex:0,
+        }
+    }
+})
+</script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <div v-for="(item,index) in userList" :key="index">
+            <p>{{item.name}}</p>
+            <p>{{item.age}}</p>
+            <p>{{item.sex}}</p>
+        </div> -->
+        张三
+    </div>
+</body>
+<!-- 引入cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                userList:[
+                    {
+                        name:'张三',
+                        age:'20',
+                        sex:'男'
+                    },
+                    {
+                        name:'李四',
+                        age:'22',
+                        sex:'男'
+                    }
+                ]
+            }
+        },
+        // vue中的 render函数  这里会接收一个参数createElement这个参数 是一个方法
+        // createElement 
+        render(createElement){
+            return createElement('div',{},this.userList.map(item=>{
+                let values = Object.values(item)
+                return createElement('div',{},values.map(i=>{
+                    return createElement('p',{},i)
+                }))
+            }))
+        }
+    })
+</script>
+</html>
