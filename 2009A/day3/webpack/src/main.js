@@ -1,0 +1,28 @@
+if(Vue){
+    new Vue({
+        el:'#app',
+        data(){
+            return{
+                list:[
+                    {
+                        title:'选项1',
+                        content:'内容1'
+                    },
+                    {
+                        title:'选项2',
+                        content:'内容2'
+                    },
+                    {
+                        title:'选项3',
+                        content:'内容3'
+                    },
+                    {
+                        title:'选项4',
+                        content:'内容4'
+                    }
+                ],
+                tabIndex:0,
+            }
+        }
+    })
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .item{
+        background: skyblue;
+    }
+    .active-item{
+        background: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <span v-for="(item,index) in list" :key="index" @click="tabIndex = index"
+        :class="{item: true,'active-item': index == tabIndex}">
+            {{item.tit}}
+        </span>
+        <hr>
+        <p>
+            {{list[tabIndex].con}}
+        </p>
+    </div>
+</body>
+<!-- 引入cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+
+<script src="../dist/bundle.js"></script>
+
+<!-- <script src="../dist/main.js"></script>
+<script src="../dist/index.js"></script> -->
+</html>
