@@ -32,7 +32,7 @@
   
 - EventBus
 
-  this.$bus.$on一定要在this.$bus.$emit之前执行！！！
+  this.$bus.$on一定要在this.$bus. $emit之前执行！！！
 
 
 ```js
