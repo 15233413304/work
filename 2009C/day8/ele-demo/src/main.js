@@ -10,6 +10,8 @@ import axios from "@/utils/http";
 Vue.use(ElementUI);
 // 在全局上挂载axios  this.$http 就相当于 axios
 Vue.prototype.$http = axios;
+// 使用eventBus
+Vue.prototype.$bus = new Vue()
 Vue.config.productionTip = false;
 
 new Vue({

@@ -21,7 +21,11 @@ module.exports = defineConfig({
   devServer: {
     onBeforeSetupMiddleware({ app }) {
       app.get("/api/list", (req, res) => {
-        res.send(data.list);
+        let { page, pageSize } = req.query
+        // 分页要用slice方法 会操作原数组 所以拷贝一份新的数组
+        let list = [...data.list]
+        // 发送一个 {list: 根据页码数和每页显示条数截取后的数据, total: 一共有多少条数据}
+        res.send({list: list.slice((page-1)*pageSize,page*pageSize),total: data.list.length});
       });
     },
   },
