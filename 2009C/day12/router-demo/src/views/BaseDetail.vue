@@ -1,5 +1,6 @@
 <template>
   <div>
+    <nav-bar title="详情页" hasLeft="true" left-text="返回" showArrow="true" @click-left="$router.back()"/>
     <!-- {{ detailData }} -->
     <!-- 轮播图 -->
     <van-swipe 

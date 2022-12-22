@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <div class="header">
-        <nav-bar title="路由"/>
+        <nav-bar :title="navTitle"/>
     </div>
     <div class="body">
         <router-view></router-view>
@@ -10,7 +10,7 @@
         <tabbar route>
             <tabbar-item replace to="/home" icon="home-o">主页</tabbar-item>
             <tabbar-item replace to="/class" icon="cluster-o">分类</tabbar-item>
-            <tabbar-item replace to="/my" icon="user-o">我的</tabbar-item>
+            <tabbar-item replace to="/my" icon="user-o">{{ title }}</tabbar-item>
         </tabbar>
     </div>
   </div>
@@ -21,6 +21,17 @@ import { NavBar,Tabbar,TabbarItem } from 'vant'
 export default {
     components:{
         NavBar,Tabbar,TabbarItem
+    },
+    computed:{
+        title(){
+            if(localStorage.getItem('logined')){
+                return '我的'
+            }
+            return '未登陆'
+        },
+        navTitle(){
+            return this.$route.meta.title
+        }
     }
 }
 </script>

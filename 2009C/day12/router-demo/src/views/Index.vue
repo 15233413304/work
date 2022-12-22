@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="container-header">
-        <van-nav-bar title="路由"/>
+        <nav-bar :title="navTitle"/>
     </div>
     <div class="container-body">
         <router-view />
@@ -10,6 +10,7 @@
         <van-tabbar route>
             <van-tabbar-item replace to="/index/home" icon="home-o">主页</van-tabbar-item>
             <van-tabbar-item replace to="/index/class" icon="cluster-o">分类</van-tabbar-item>
+            <van-tabbar-item replace to="/index/my" icon="user-o">{{ myTitle }}</van-tabbar-item>
         </van-tabbar>
     </div>
   </div>
@@ -17,7 +18,14 @@
 
 <script>
 export default {
-
+    computed:{
+        myTitle(){
+            return localStorage.logined? '我的' : '未登陆'
+        },
+        navTitle(){
+            return this.$route.meta.title
+        }
+    }
 }
 </script>
 

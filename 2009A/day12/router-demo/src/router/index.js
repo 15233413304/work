@@ -21,6 +21,10 @@ const routes = [
         path: "home",
         // 路由名称
         name: "home",
+        // 路由元信息
+        meta:{
+          title:'主页'
+        },
         // 路由视图组件 路由懒加载
         component: ()=> import('@/views/BaseHome.vue'),
       },
@@ -29,6 +33,9 @@ const routes = [
         path: "class",
         // 路由名称
         name: "class",
+        meta:{
+          title:'分类'
+        },
         // 路由视图组件 路由懒加载
         component: ()=> import('@/views/BaseClassify.vue'),
       },
@@ -37,6 +44,9 @@ const routes = [
         path: "my",
         // 路由名称
         name: "my",
+        meta:{
+          title:"我的"
+        },
         // 路由视图组件 路由懒加载
         component: ()=> import('@/views/BaseMy.vue'),
       },

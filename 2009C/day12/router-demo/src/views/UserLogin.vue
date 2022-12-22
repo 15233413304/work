@@ -1,15 +1,15 @@
 <template>
   <div>
-        <nav-bar title="登陆" />
-        <van-form @submit="onSubmit">
-        <field
+    <nav-bar title="登陆"/>
+    <van-form @submit="onSubmit">
+        <van-field
             v-model="username"
             name="用户名"
             label="用户名"
             placeholder="用户名"
             :rules="[{ required: true, message: '请填写用户名' }]"
         />
-        <field
+        <van-field
             v-model="password"
             type="password"
             name="密码"
@@ -21,13 +21,12 @@
             <van-button round block type="info" native-type="submit">登陆</van-button>
         </div>
     </van-form>
+
   </div>
 </template>
 
 <script>
-import { Field, Form, Button, NavBar } from 'vant'
 export default {
-  components:{ Field, "van-form":Form, 'van-button': Button, NavBar},
   data() {
     return {
       username: '',
@@ -37,14 +36,15 @@ export default {
   methods: {
     onSubmit(values) {
       console.log('submit', values);
-      // 登陆成功 存一个时间戳
-      localStorage.setItem('logined',+new Date())
+     //   登陆成功后 存储登陆状态
+      localStorage.setItem('logined', +new Date())
       let path = localStorage.RouterPath
-      //跳转回之前被拦截的页面   
-      this.$router.push(`${path}`)
+    //   存完登陆状态后 跳转至之前被拦截的页面
+     this.$router.push(`${path}`)
     },
   },
 };
+
 </script>
 
 <style>

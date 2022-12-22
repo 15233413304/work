@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- {{ detailData }} -->
+    <nav-bar title="详情" left-text="返回" left-arrow @click-left="$router.back()"/>
     <!-- 轮播图 -->
     <swipe :autoplay="3000" @change="(index)=> current = index">
       <swipe-item v-for="(i, idx) in detailData.detailImg" :key="idx">
@@ -19,10 +20,10 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant';
+import { Swipe, SwipeItem,NavBar } from 'vant';
 
 export default {
-  components:{ Swipe, SwipeItem },
+  components:{ Swipe, SwipeItem,NavBar },
   data(){
     return{
       detailData:{},
