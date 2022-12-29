@@ -1,0 +1,35 @@
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Index from "../views/Index.vue";
+
+Vue.use(VueRouter);
+
+const routes = [
+  {
+    path: "/",
+    name: "index",
+    component: Index,
+    redirect:'/home',
+    children:[
+      {
+        path:'home',
+        name:'home',
+        component:()=> import('@/views/HomeView.vue')
+      },
+      {
+        path:'edit',
+        name:'edit',
+        component:()=> import('@/views/EditUser.vue')
+      },
+     
+    ]
+  },
+];
+
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+});
+
+export default router;
