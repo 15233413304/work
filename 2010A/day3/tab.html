@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content{
+            width: 800px;
+            border-radius: 10px;
+            border: 1px solid;
+        }
+        .tag{
+            padding: 5px;
+            text-align: center;
+            background: #ccc;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .active{
+            background: skyblue;
+        }
+        .item-active{
+            background-color: gold;
+        }
+        .tag span{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <div v-if="tagList.length">
+                <!-- v-if 一定要在v-for的外层 不要同时使用v-if和v-for -->
+                <div class="tag" v-for="(item, index) in tagList" :key="index">
+                    {{item}} <span @click="handleDelTag(index)">x</span>
+                </div>
+            </div>
+            
+            <button @click="showContent = !showContent">+添加标签</button>
+        </div>
+        <div class="content" v-if="showContent">
+            <!-- 用v-bind 给一个动态类名 实现高亮效果 -->
+            <div :class="['tag',{active:index == currentIndex}]" 
+                v-for="(item, index) in list" :key="index*10"
+                @click="currentIndex = index"
+            >
+                {{item.name}}
+            </div>
+            <hr>
+            <div class="tag" v-for="(i,idx) in list[currentIndex].children"
+                :key="idx+1"
+                :class="{'item-active': hasTag(i)}"
+                @click="handleItem(i)"
+            >
+                {{i}} 
+            </div>
+        </div>
+    </div>
+</body>
+<!-- 引入cdn -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+     new Vue({
+        el:'#app',
+        // 数据、状态、变量都存放在data里 data一定要return一个对象
+        data(){
+            return{
+                list:[
+                    {
+                        name:'前端',
+                        children:['javascript','vue.js','react.js','typescript']
+                    },
+                    {
+                        name:'后端',
+                        children:['java','python','php','.net']
+                    }
+                ],
+                // 当前选中的tab下标
+                currentIndex: 0,
+                // 控制content 显示隐藏
+                showContent: false,
+                // 已经添加的标签列表
+                tagList:[]
+            }
+        },
+        // 存放函数的
+        methods: {
+            // 点击添加标签
+            handleItem(tag){
+                // 隐藏弹窗
+                this.showContent = false
+                // 判断有没有添加过 如果有这个标签 那就返回下标 否则返回-1
+                let index = this.tagList.findIndex(item=> item == tag)
+                if(index == -1){
+                    // 没添加过 直接添加 
+                    // 判断数量是否达到5个
+                    if(this.tagList.length === 5){
+                        return alert('最多添加5个标签')
+                    }
+                    return this.tagList.push(tag)
+                }
+                alert('已经添加过此标签了')
+            },
+            // 点击 x 的时候 删除这个标签
+            handleDelTag(index){
+                this.tagList.splice(index,1)
+            },
+            hasTag(tag){
+                return this.tagList.includes(tag)
+            }
+        },
+    })
+</script>
+</html>

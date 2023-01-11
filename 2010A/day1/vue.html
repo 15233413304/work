@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .header{
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid;
+    }
+    .search{
+        text-align: center;
+        margin: 10px;
+    }
+    .search input{
+        width: 70vw;
+        height: 30px;
+        text-indent: 5px;
+    }
+    img{
+        width: 150px;
+    }
+    dl{
+        display: flex;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="header">
+            <!-- 在vue中 可以使用 {{ 变量 }} 来渲染变量的值 这里可以运行js逻辑 -->
+            {{ title }}
+        </div>
+        <div class="container">
+            <div class="search">
+                <!-- 对输入框、下拉框这种有值的标签 可以使用 v-model="变量" 双向绑定 -->
+                <!-- v-on:原生js事件名="回调函数" 可以缩写成@ -->
+                <!-- <input type="text" placeholder="请输入搜索内容" v-model="searchValue" v-on:input="changeValue"> -->
+                <input type="text" placeholder="请输入搜索内容" v-model="searchValue" @input="changeValue">
+                <button @click="clickSearch">搜索</button>
+            </div>
+            <!-- {{searchList}} -->
+            <!-- v-for 是vue的内置指令 可以对数组或对象进行遍历 -->
+            <!-- v-for 遍历时 一定要加一个动态的key值 这是一个索引 保证渲染的每一项独一无二 可以提高渲染速度 -->
+            <div class="item-shop" v-for="(item,index) in searchList" :key="index">
+                <!-- {{item}} -->
+                <dl>
+                    <dt>
+                        <!-- v-bind 可以用来动态的绑定属性 如果对属性加了v-bind 那这个属性后面的值会识别js逻辑-->
+                        <!-- v-bind 可以缩写成 : -->
+                        <img :src="item.img" alt="">
+                    </dt>
+                    <dd>
+                        <p>{{ item.name }}</p>
+                        <!-- v-text 渲染纯文本内容可以使用 v-text="变量" -->
+                        <p v-text="item.desc"></p>
+                        <!-- v-html 可以渲染富文本 会识别标签 -->
+                        <p v-html="`<span>${item.price}</span>`"></p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- 引入cdn 以支持vue语法 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化vue
+    new Vue({
+        // 挂载的dom元素 用来渲染页面  名字是固定的 就叫el
+        el:'#app',
+        //  在vue中 使用data来管理数据/状态 用来定义变量的
+        data(){
+            return {
+                title:'校园超市',
+                searchValue:'',
+                // 定义一个列表
+                list:[
+                    {
+                        // 商品图片
+                        img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                        // 商品名
+                        name:'vuejs',
+                        // 商品描述
+                        desc:'今天我们要学习vuejs了',
+                        // 商品价格
+                        price:20
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                        // 商品名
+                        name:'vuejs1',
+                        // 商品描述
+                        desc:'今天我们要学习vuejs了',
+                        // 商品价格
+                        price:23
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                        // 商品名
+                        name:'react',
+                        // 商品描述
+                        desc:'今天我们要学习reactjs了',
+                        // 商品价格
+                        price:30
+                    },
+                    {
+                        // 商品图片
+                        img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                        // 商品名
+                        name:'react1',
+                        // 商品描述
+                        desc:'今天我们要学习reactjs了',
+                        // 商品价格
+                        price:24
+                    }
+                ],
+                // 搜索列表
+                searchList:[
+                {
+                    // 商品图片
+                    img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                    // 商品名
+                    name:'vuejs',
+                    // 商品描述
+                    desc:'今天我们要学习vuejs了',
+                    // 商品价格
+                    price:20
+                },
+                {
+                    // 商品图片
+                    img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                    // 商品名
+                    name:'vuejs1',
+                    // 商品描述
+                    desc:'今天我们要学习vuejs了',
+                    // 商品价格
+                    price:23
+                },
+                {
+                    // 商品图片
+                    img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                    // 商品名
+                    name:'react',
+                    // 商品描述
+                    desc:'今天我们要学习reactjs了',
+                    // 商品价格
+                    price:30
+                },
+                {
+                    // 商品图片
+                    img:'https://img0.baidu.com/it/u=1705694933,4002952892&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1673110800&t=1509d1ce43fbf2a5c825689843e60ad2',
+                    // 商品名
+                    name:'react1',
+                    // 商品描述
+                    desc:'今天我们要学习reactjs了',
+                    // 商品价格
+                    price:24
+                }
+            ]
+          }
+        },
+        // methods 定义自定义函数 methods会将在这里定义的函数 混入到vue实例中
+        methods: {
+            // 在输入框中输入内容时触发这个回调函数
+            changeValue(){
+                console.log(this.searchValue)
+            },
+            // 点击搜索时触发这个回调函数
+            clickSearch(){
+                // 判断有没有输入内容
+                if(this.searchValue.length){
+                    // 模糊搜索 
+                    return this.searchList = this.list.filter(item=>{
+                        return item.name.includes(this.searchValue)
+                    })
+                    // return this.searchList = this.list.filter(item=> item.name.includes(this.searchValue))
+                }
+                // 没有输入内容 展示所有数据
+                this.searchList = this.list
+            }
+        },
+    })
+</script>
+</html>

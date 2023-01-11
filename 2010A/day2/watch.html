@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="form.value" @input="changeValue" >
+    </div>
+</body>
+<!-- 引入 cdn 使用vue语法 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    // 实例化Vue
+    new Vue({
+        // 挂载的元素
+        el:'#app',
+        // 存放变量、数据等
+        data(){
+            return {
+                formValue:'',
+                form:{
+                    value:''
+                }
+            }
+        },
+        // 存放自定义函数
+        methods: {
+            changeValue(){
+                // console.log(this.formValue)
+            }
+        },
+        // 计算属性 计算一个依赖于其他数据的结果 computed是有缓存的 当依赖的数据没有改变时会用缓存的值
+        computed: {
+            myForm(){
+                return {...this.form}
+            }
+        },
+        // 用来监听数据改变的 watch可以监听vue实例中的 数据改变 比如 data里的值改变了
+        // watch:{
+        //     formValue(newValue,oldValue){
+        //         console.log(newValue,oldValue)
+        //     }
+        // }
+        // 建议写法：写成一个对象 使用hander函数 可以配置其他项
+        watch:{
+            // 当我们监听的值 是一个引用数据类型的时候 需要加一个 deep: true
+            myForm:{
+                // handler 名字是固定的 当myForm变化时 直接执行handler
+                handler(newValue,oldValue){
+                    // ?. es6语法 链式调用 当左侧的值为undefined时 不会再继续执行 直接返回undefined
+                    console.log(newValue.value,oldValue?.value)
+                },
+                // 是否第一次进页面就执行
+                immediate: true,
+                // 开启深度监听 不论层级多么深 都可以监听到内部的变化
+                deep: true
+            }
+        }
+    })
+</script>
+</html>

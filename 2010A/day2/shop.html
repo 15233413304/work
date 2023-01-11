@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .shop{
+        display: flex;
+        width: 80%;
+        overflow: auto;
+    }
+    .shop-item{
+        display: inline-block;
+        margin: 10px;
+    }
+    img{
+        width: 50px;
+        height: 50px;
+    }
+</style>
+<body>
+    <div id="app">
+       <div>
+        <label>全选</label>
+        <input type="checkbox" v-model="isCheckAll" @change="changeAll">
+       </div> 
+       <div class="shop">
+        <!-- 遍历shop数组 渲染商品 -->
+        <div v-for="item in shop" :key="item.id" class="shop-item">
+            <!-- 商品的单选状态 -->
+            <input type="checkbox" v-model="item.isCheck" @change="changeItem">
+            <!-- 每个商品的图片 -->
+            <img :src="item.img" alt="">
+            <!-- 每个商品的名称 -->
+            <p>{{item.name}}</p>
+            <!-- 每个商品的价格 -->
+            <p>{{item.price}}</p>
+        </div>
+       </div>
+       <div>
+            商品总价：{{allPrice}}
+       </div>
+    </div>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!-- 引入mockjs -->
+<script src="http://mockjs.com/dist/mock.js"></script>
+<!-- 引入axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    new Vue({
+        el:'#app',
+        data() {
+            return {
+                // 商品数据列表
+                shop:[],
+                // 全选状态
+                isCheckAll: false,
+            }
+        },
+        computed:{
+            allPrice(){
+                // 拿到选中的商品
+                let checkList = this.shop.filter(item=> item.isCheck)
+                // 计算选中商品的价格之和
+                // return checkList.reduce((prev,next)=>{
+                //     return prev + next.price
+                // },0)
+                // 另一种写法 不用reduce
+                let price = 0
+                checkList.forEach(item=>{
+                    price += item.price
+                })
+                return price
+            }
+        },
+        methods: {
+            getShopList(){
+                // axios二次封装
+                // 设置一个超时时间
+                axios.default.timeout = 3000
+                // 添加请求拦截器
+                axios.interceptors.request.use(function (config) {
+                    // 在发送请求之前做些什么
+                    return config;
+                }, function (error) {
+                    // 对请求错误做些什么
+                    return Promise.reject(error);
+                });
+
+                // 添加响应拦截器
+                axios.interceptors.response.use(function (response) {
+                    // 对响应数据做点什么
+                    return response;
+                }, function (error) {
+                    // 对响应错误做点什么
+                    return Promise.reject(error);
+                });
+                // 请求数据
+                axios.get('/api/list').then(res=>{
+                    // console.log(res)
+                    // 将请求返回的数据赋值给shop
+                    this.shop = res.data.list
+                })
+            },
+            // 全选按钮选中状态改变时触发的回调函数
+            changeAll(){
+                // 改变单选状态
+                this.shop.forEach(item => {
+                    // 让每一个商品的选中状态变为全选的状态
+                    item.isCheck = this.isCheckAll
+                });
+            },
+            // 单选按钮选中状态改变时触发的回调函数
+            changeItem(){
+                // 如果都选中 全选状态为true 否则为 false
+                this.isCheckAll = this.shop.every(item=> item.isCheck)
+            }
+        },
+        // 页面创建后执行的生命周期函数
+        created(){
+            console.log('created')
+            // 定义模拟的数据
+            Mock.mock('/api/list','get',()=>{
+                return Mock.mock({
+                    "list|20":[
+                        {
+                            // 商品名
+                            name:'@ctitle(2,5)',
+                            // 价格
+                            "price|10-100":1,
+                            // 图片
+                            img: '@image(50x50,@color)',
+                            // 是否选中该商品
+                            isCheck: false,
+                            // 商品id
+                            id:"@id"
+                        }
+                    ]
+                })
+            })
+        },
+        // 页面创建完毕后 挂载到dom上进行渲染 会执行这个生命周期函数
+        mounted() {
+            // console.log('mounted')
+            // 调用请求接口的函数
+            this.getShopList()
+        },
+    })
+</script>
+</html>

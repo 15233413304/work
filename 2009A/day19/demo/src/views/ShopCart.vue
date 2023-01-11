@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { Dialog, Toast } from 'vant'
 export default {
   computed:{
     list(){
@@ -112,11 +113,23 @@ export default {
     },
     // 删除商品
     delShop(index,id){
-      this.$store.commit('cart/delShop',index)
-      let idx = this.checked.findIndex(item=> item.id == id)
-      if (idx>-1){
-        this.checked.splice(idx,1)
-      }
+        Dialog.confirm({
+          title: '提示',
+          message: '确认删除改商品吗？',
+        })
+        .then(() => {
+          // on confirm
+          this.$store.commit('cart/delShop',index)
+          let idx = this.checked.findIndex(item=> item.id == id)
+          if (idx>-1){
+            this.checked.splice(idx,1)
+          }
+          Toast.success('删除成功')
+        })
+        .catch(() => {
+          // on cancel
+          Toast('取消删除')
+        });
     }
   },
 }
